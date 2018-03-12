@@ -1,0 +1,12 @@
+<input type="text" [(ngModel)]="term">
+<ul>
+  <li class="text" *ngFor="let user of users | async | filter:term ">
+    <div class="user-widget">
+      <div><h2>{{user.username}}</h2></div>
+      <div class="contols-container">
+        <span>Follow</span>
+        <span>Unfollow</span>
+      </div>
+    </div>
+  </li>
+</ul>
