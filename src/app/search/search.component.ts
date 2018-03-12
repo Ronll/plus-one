@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../user'
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -17,7 +16,7 @@ export class SearchComponent implements OnInit {
     this.users = db.allUsers
   }
   followUser(uid){
-    
+
   }
   ngOnInit() {
   }
