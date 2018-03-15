@@ -12,11 +12,12 @@ import { DbService } from '../db.service'
 export class SearchComponent implements OnInit {
 
   users: Observable<any[]>;
+  
   constructor(private db: DbService) {
     this.users = db.allUsers
   }
   followUser(uid){
-
+    
   }
   ngOnInit() {
   }

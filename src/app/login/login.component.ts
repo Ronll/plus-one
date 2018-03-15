@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   phoneNumber: string;
 
+  showUsernameInput: boolean;
+
   user: any;
 
   constructor(public afAuth: AngularFireAuth, private win: WindowService) {}
@@ -35,11 +37,22 @@ export class LoginComponent implements OnInit {
     this.windowRef.confirmationResult
                   .confirm(this.verificationCode)
                   .then( result => {
-
+                    
+                    console.log(result)
                     this.user = result.user;
+                    if(result.additionalUserInfo.isNewUser){
+                      this.showUsernameForm()
+                    }
+                  })
+                  .catch( error => console.log(error, "Incorrect code entered?"));
+  }
 
-    })
-    .catch( error => console.log(error, "Incorrect code entered?"));
+  showUsernameForm(){
+    this.showUsernameInput = true;
+  }
+
+  setUsername(){
+    
   }
 
   ngOnInit() {

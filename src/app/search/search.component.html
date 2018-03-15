@@ -4,7 +4,7 @@
     <div class="user-widget">
       <div><h2>{{user.username}}</h2></div>
       <div class="contols-container">
-        <span>Follow</span>
+        <span (click)="followUser(user.id)" >Follow</span>
         <span>Unfollow</span>
       </div>
     </div>
