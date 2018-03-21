@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 export class DbService {
 
   allUsers: Observable<any[]>
-  fullFollowList: Observable<any[]>
+  myFollows: any
   fullReverseFollowersList: Observable<any[]>
   allRankings: Observable<any[]>
   myUid: string
@@ -15,27 +15,33 @@ export class DbService {
   constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
     this.db = db
     this.myUid = afAuth.auth.currentUser.uid
-    console.log(this.db)
     
-    this.allUsers = db.list('users').valueChanges();    
-    this.fullFollowList = db.list('follow/' + this.myUid).valueChanges();
+    this.allUsers = db.list('users').valueChanges();
+    this.myFollows = db.list(`follow/${this.myUid}`).snapshotChanges().map(actions => {
+        return actions.map(a => {
+          const data = a.payload.val();
+          const id = a.key;
+          const username = this.db.object(`/users/${id}/username`).valueChanges()
+          const points = 1;
+          console.log({ id, username, ...data })
+          return { id, username, ...data };
+        });
+    });
+    
     this.fullReverseFollowersList = db.list('followers').valueChanges();
     this.allRankings = db.list('ranks').valueChanges()
   }
-  followUser(uid){
-    var follow = {}
-    follow[this.myUid] = uid
-    console.log(this.db)
-    return this.db.list('follow').push( follow )
+
+  getUsernameByUid(uid){
+    return this.allUsers
   }
+
   getMyFollowings(){
-    return this.fullFollowList[this.myUid]
+    return this.myFollows
   }
   getMyRank(){
     return this.allRankings[this.myUid].map((currentRank)=>{
       currentRank += currentRank.rank
     })
   }
-   
-
 }
