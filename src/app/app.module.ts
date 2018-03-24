@@ -17,6 +17,7 @@ import { AuthGuard } from './auth-guard.service';
 import { SearchComponent } from './search/search.component';
 import { DbService } from './db.service'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ScoreComponent } from './score/score.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,12 +35,12 @@ const appRoutes: Routes = [
     AppComponent,
     ScoresComponent,
     LoginComponent,
-    SearchComponent
+    SearchComponent,
+    ScoreComponent
   ],
   imports: [
     RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      appRoutes
     ),
     BrowserModule,
     FormsModule,

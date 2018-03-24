@@ -11,14 +11,33 @@ import { DbService } from '../db.service'
 })
 export class SearchComponent implements OnInit {
 
-  users: Observable<any[]>;
+  myUid: string
   
-  constructor(private db: DbService) {
-    this.users = db.allUsers
+  followList: Observable<any>
+
+  users: Observable<any>
+
+  constructor(private db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+    this.db = db
+    this.myUid = afAuth.auth.currentUser.uid
+    this.followList = db.list('follow/' + this.myUid).valueChanges();
+    this.users = db.list('users').valueChanges();
   }
+
   followUser(uid){
-    
+    var follow = {}
+    follow[this.myUid] = uid
+    this.db.list(`follow/${this.myUid}`).set(uid, {timestamp: String(Date.now()).slice(0,9)} )
+    this.db.list(`followers/${uid}`).set(this.myUid, {timestamp: String(Date.now()).slice(0,9)} )    
   }
+
+  unfollowUser(uid){
+    var follow = {}
+    follow[this.myUid] = uid
+    this.db.list(`follow/${this.myUid}`).remove( uid )
+    this.db.list(`followers/${uid}/${this.myUid}`).remove()
+  }
+  
   ngOnInit() {
   }
 

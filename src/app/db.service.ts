@@ -20,11 +20,11 @@ export class DbService {
     this.myFollows = db.list(`follow/${this.myUid}`).snapshotChanges().map(actions => {
         return actions.map(a => {
           const data = a.payload.val();
-          const id = a.key;
-          const username = this.db.object(`/users/${id}/username`).valueChanges()
+          const uid = a.key;
+          const username = this.getUsernameByUid(uid)
+          const rank = this.getUserRank(uid)
           const points = 1;
-          console.log({ id, username, ...data })
-          return { id, username, ...data };
+          return { uid, username, rank, ...data };
         });
     });
     
@@ -32,13 +32,24 @@ export class DbService {
     this.allRankings = db.list('ranks').valueChanges()
   }
 
-  getUsernameByUid(uid){
-    return this.allUsers
+  rankUser(uid, rank, reason){
+    this.db.list(`/ranks/${uid}`).push({
+      rank: rank,
+      ranker: this.myUid,
+      reason: reason,
+      timestamp: String(Date.now()).slice(0,9)
+    })
   }
 
-  getMyFollowings(){
-    return this.myFollows
+  getUsernameByUid(uid){
+    return this.db.object(`/users/${uid}/username`).valueChanges()
   }
+
+  getUserRank(uid){
+    return this.db.list(`/ranks/${uid}`).valueChanges().map(array => array
+    .reduce((acc, element)=>{ return acc + element['rank']}, 0))
+  }
+
   getMyRank(){
     return this.allRankings[this.myUid].map((currentRank)=>{
       currentRank += currentRank.rank

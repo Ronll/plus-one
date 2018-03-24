@@ -3,6 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { DbService } from '../db.service'
+import 'rxjs/add/observable/combineLatest';
 
 @Component({
   selector: 'app-scores',
@@ -11,10 +12,27 @@ import { DbService } from '../db.service'
 })
 export class ScoresComponent implements OnInit {
   
-  myFollowList: Observable<any[]>;
-  constructor(db: DbService) {
-    this.myFollowList = db.fullFollowList
+  myFollows: Observable<any[]>
+  list: Observable<any[]>
+
+  myUid: string
+
+  constructor(
+    private db: AngularFireDatabase, 
+    public afAuth: AngularFireAuth,
+    private dbs: DbService
+  ) {
+
+    this.myUid = afAuth.auth.currentUser.uid
+    
+    this.myFollows = dbs.myFollows
+
   }
+
+  rankUser(uid, rank){
+    this.dbs.rankUser(uid, rank, "")
+  }
+
   ngOnInit() {
   }
 

@@ -1,14 +1,13 @@
 <div>
   <h1>20</h1>
-
 </div>
 <ul>
-  <li class="text" *ngFor="let user of myFollowList | async">
+  <li class="text" *ngFor="let user of myFollows | async">
     <div class="user-widget">
-      <div><h2>{{user}}</h2></div>
-      <div><h3>34</h3></div>
+      <div><h2>{{user.username | async}}</h2></div>
+      <div><h3>{{user.rank | async}}</h3></div>
       <div class="contols-container">
-        <span>-3</span>
+        <span (click)="rankUser(user.uid,-3)">-3</span>
         <span>-1</span>
         <span>+1</span>
         <span>+3</span>

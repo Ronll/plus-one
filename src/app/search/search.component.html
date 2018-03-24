@@ -5,7 +5,7 @@
       <div><h2>{{user.username}}</h2></div>
       <div class="contols-container">
         <span (click)="followUser(user.id)" >Follow</span>
-        <span>Unfollow</span>
+        <span (click)="unfollowUser(user.id)" >Unfollow</span>
       </div>
     </div>
   </li>
