@@ -18,16 +18,22 @@ import { SearchComponent } from './search/search.component';
 import { DbService } from './db.service'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ScoreComponent } from './score/score.component';
+import { 
+  MatDialogModule,
+  MatFormFieldModule, 
+  MatInputModule, 
+  MatToolbarModule,
+  MatCardModule 
+} from '@angular/material';
+import { ScoresReasonDialogComponent } from './scores/scores-reason-dialog/scores-reason-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'scores', component: ScoresComponent, canActivate: [AuthGuard]},
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
-  { path: 'history/:userid/', component: LoginComponent, canActivate: [AuthGuard] },
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  }
+  { path: 'scores', component: ScoresComponent, canActivate: [AuthGuard] },
+  { path: 'scores/:uid', component: ScoreComponent, canActivate: [AuthGuard] },  
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -36,7 +42,8 @@ const appRoutes: Routes = [
     ScoresComponent,
     LoginComponent,
     SearchComponent,
-    ScoreComponent
+    ScoreComponent,
+    ScoresReasonDialogComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -48,13 +55,20 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatCardModule
   ],
   providers: [
     WindowService,
     AuthGuard,
     DbService
   ],
+  entryComponents: [ScoresReasonDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
