@@ -12,10 +12,12 @@ export class DbService {
   allRankings: Observable<any[]>
   myUid: string
   db: AngularFireDatabase
+  myRank: Observable<any>
+
   constructor(db: AngularFireDatabase, public afAuth: AngularFireAuth) {
     this.db = db
     this.myUid = afAuth.auth.currentUser.uid
-    
+    this.myRank = this.getUserRank(this.myUid)
     this.allUsers = db.list('users').valueChanges();
     this.myFollows = db.list(`follow/${this.myUid}`).snapshotChanges().map(actions => {
         return actions.map(a => {
@@ -46,8 +48,23 @@ export class DbService {
   }
 
   getUserRank(uid){
-    return this.db.list(`/ranks/${uid}`).valueChanges().map(array => array
-    .reduce((acc, element)=>{ return acc + element['rank']}, 0))
+    return this.db.list(`/ranks/${uid}`).valueChanges().map(array =>
+      array.reduce((acc, element)=>{ return acc + element['rank']}, 0))
+  }
+
+  getUserRankEvents(uid){
+    return this.db.list(`/ranks/${uid}`).valueChanges().map((array) => {
+      return array.map((event) => {
+        const username = this.getUsernameByUid(event['ranker'])
+        return { ...event, username }
+      })
+    })
+  }
+
+  isObjectDefined(uri: string, callback){
+    return this.db.object(uri).snapshotChanges().subscribe((obj) => {
+      callback(obj.key !== null)
+    })
   }
 
   getMyRank(){
