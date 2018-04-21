@@ -1,3 +1,11 @@
-<p>
-  score works!
-</p>
+<h2></h2>
+<button type="button" class="btn btn-primary" routerLink="../">Back</button>
+<ul>
+  <li class="text" *ngFor="let event of rankEvents | async">
+    <div class="user-widget">
+      <div><h2>{{ event.rank }}</h2></div>
+      <p>{{ event.reason }}</p>
+      <h3>{{ event.username | async }}</h3>
+    </div>
+  </li>
+</ul>

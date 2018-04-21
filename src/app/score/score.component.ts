@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router'
+import { Observable } from '@firebase/util';
+import { DbService } from '../db.service'
 
 @Component({
   selector: 'app-score',
@@ -7,7 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScoreComponent implements OnInit {
 
-  constructor() { }
+  uid: string
+
+  rankEvents: any
+
+  constructor(private route: ActivatedRoute, private dbs: DbService) {
+    this.uid = this.route.snapshot.params.uid;
+    this.rankEvents = dbs.getUserRankEvents(this.uid)
+   }
 
   ngOnInit() {
   }
