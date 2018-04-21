@@ -18,12 +18,17 @@ import { SearchComponent } from './search/search.component';
 import { DbService } from './db.service'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ScoreComponent } from './score/score.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 import { 
   MatDialogModule,
   MatFormFieldModule, 
   MatInputModule, 
   MatToolbarModule,
-  MatCardModule 
+  MatCardModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule
 } from '@angular/material';
 import { ScoresReasonDialogComponent } from './scores/scores-reason-dialog/scores-reason-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -61,12 +66,17 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatInputModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     WindowService,
     AuthGuard,
-    DbService
+    DbService,
+    MediaMatcher
   ],
   entryComponents: [ScoresReasonDialogComponent],
   bootstrap: [AppComponent]
