@@ -10,7 +10,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { ScoresComponent } from './scores/scores.component';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WindowService } from './window.service';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth-guard.service';
@@ -28,7 +28,9 @@ import {
   MatButtonModule,
   MatSidenavModule,
   MatIconModule,
-  MatListModule
+  MatListModule,
+  MatStepperModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { ScoresReasonDialogComponent } from './scores/scores-reason-dialog/scores-reason-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -70,7 +72,10 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatStepperModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ],
   providers: [
     WindowService,

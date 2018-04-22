@@ -1,30 +1,40 @@
-<div *ngIf="showSignInForm">
-  <h1>Sign In</h1>
-
-  <label for="phone">Phone Number</label><br>
-  <input type="text" [(ngModel)]="phoneNumber" class="input" placeholder="1" maxlength="12">
-  
-  <button (click)="sendLoginCode()">SMS Text Login Code</button>
-  
-  <div *ngIf="windowRef.confirmationResult">
-    <hr>
-    <label for="code">Enter your Verification Code Here</label><br>
-    <input type="text" name="code" [(ngModel)]="verificationCode">
-    
-    <button (click)="verifyLoginCode()">Verify</button>
-  </div>
-</div>
-<div *ngIf="showLoggedInMessage">
-  <h1>Logged in!</h1>
-  
-</div>
+<mat-vertical-stepper #mainstepper linear>
+  <mat-step>
+    <ng-template matStepLabel>
+      <h2>Login / Signup</h2>
+    </ng-template>
+    <mat-horizontal-stepper #smsstepper linear>
+      <mat-step [stepControl]="phoneNumberFormGroup">
+        <form #phonenumform="ngForm" (ngSubmit)="sumbitPhoneNumber(smsstepper, phonenumform)" [formGroup]="phoneNumberFormGroup">
+          <mat-form-field>
+            <input matInput placeholder="Phone number" [(ngModel)]="phoneNumber" formControlName="phoneNumber" (click)="sendLoginCode"
+              required>
+          </mat-form-field>
+          <button mat-button matStepperNext [disabled]="!phonenumform.valid"> Send Code </button>
+          <mat-spinner diameter="15" *ngIf="smsSpinner"></mat-spinner>
+        </form>
+      </mat-step>
+      <mat-step>
+        <form #smscodeform="ngForm" (ngSubmit)="sumbitSMSCode(mainstepper, smscodeform)" [formGroup]="codeFormGroup">
+          <mat-form-field>
+            <input matInput placeholder="6-digit code" [(ngModel)]="verificationCode" formControlName="code" required>
+          </mat-form-field>
+          <button mat-button matStepperNext> Submit </button>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>
+      <h2>Choose Username</h2>
+    </ng-template>
+    <form #usernameform="ngForm" (ngSubmit)="submitUsername()" [formGroup]="usernameAssigmentFormGroup">
+      <mat-form-field>
+        <input matInput placeholder="Username" [(ngModel)]="username" formControlName="username" required>
+      </mat-form-field>
+      <button mat-button matStepperNext [disabled]="!usernameform.valid"> Submit </button>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>
 
 <div id="recaptcha-container"></div>
-
-<div *ngIf="showUsernameInput">
-  <hr>
-  <label for="username">Choose Username</label><br>
-  <input type="text" name="username" [(ngModel)]="username">
-
-  <button (click)="assignUsername(username)">Submit</button>
-</div>
