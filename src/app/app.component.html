@@ -1,46 +1,49 @@
-<mat-toolbar color="primary">
-  <span>
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-  </span>
-  <span>Plus One</span>
-  <span class="toolbar-filler"></span>
-  <span>
-    <button mat-icon-button routerLink="/search" class="toolbar-search-btn">
-      <mat-icon>search</mat-icon>
-    </button>
-  </span>
-</mat-toolbar>
-<mat-sidenav-container [style.marginTop.px]="mobileQuery.matches ? 56 : 0" class="nav-container">
-  <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-    <mat-nav-list class="nav-list">
-      <a mat-list-item class="nav-items-container" routerLink="/scores">
-        <mat-icon matListIcon> home </mat-icon>
-        <span matLine> Home </span>
-      </a>
-      <a mat-list-item class="nav-items-container" routerLink="/search">
+<div style="height: 100vh;">
+
+  <mat-toolbar color="primary">
+    <span>
+      <button mat-icon-button (click)="snav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </span>
+    <span>Plus One</span>
+    <span class="toolbar-filler"></span>
+    <span>
+      <button mat-icon-button routerLink="/search" class="toolbar-search-btn">
+        <mat-icon>search</mat-icon>
+      </button>
+    </span>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlexFill class="nav-container">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" fxLayout="column">
+      <mat-nav-list fxLayout="column" class="nav-list">
+        <a mat-list-item class="nav-items-container" routerLink="/scores">
+          <mat-icon matListIcon> home </mat-icon>
+          <span matLine> Home </span>
+        </a>
+        <a mat-list-item class="nav-items-container" routerLink="/search">
           <mat-icon matListIcon> search </mat-icon>
           <span matLine> Search </span>
-      </a>
-      <mat-divider></mat-divider>
-      <div *ngIf="checkIfLoggedIn(); then logout; else login"></div>
-      <ng-template #logout>
-        <a mat-list-item class="nav-items-container" (click)="signOut()">
+        </a>
+        <mat-divider></mat-divider>
+        <div *ngIf="checkIfLoggedIn(); then logout; else login"></div>
+        <ng-template #logout>
+          <a mat-list-item class="nav-items-container" (click)="signOut()">
             <mat-icon matListIcon> exit_to_app </mat-icon>
             <span matLine> Logout </span>
-        </a>
-      </ng-template>
-      <ng-template #login>
+          </a>
+        </ng-template>
+        <ng-template #login>
           <a mat-list-item class="nav-items-container" routerLink="/login">
             <mat-icon matListIcon> account_circle </mat-icon>
             <span matLine> Login </span>
           </a>
         </ng-template>
-    </mat-nav-list>
-  </mat-sidenav>
+      </mat-nav-list>
+    </mat-sidenav>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-content fxFlexFill>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,11 +1,20 @@
-<h2></h2>
-<button type="button" class="btn btn-primary" routerLink="../">Back</button>
-<ul>
-  <li class="text" *ngFor="let event of rankEvents | async">
-    <div class="user-widget">
-      <div><h2>{{ event.rank }}</h2></div>
-      <p>{{ event.reason }}</p>
+<mat-list>
+  <button mat-mini-fab type="button" class="btn btn-primary" routerLink="../">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <mat-list-item *ngFor="let event of rankEvents | async">
+    <span>
       <h3>{{ event.username | async }}</h3>
-    </div>
-  </li>
-</ul>
+    </span>
+    <span class="space-in-line"></span>
+    <span>
+      <p>{{ event.reason }}</p>
+    </span>
+    <span class="space-in-line"></span>
+    <span>
+      <h2 mat-mini-fab>{{ event.rank }}</h2>
+    </span>
+
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>

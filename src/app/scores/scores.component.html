@@ -1,12 +1,12 @@
 <mat-card>
-  <mat-card-content class="my-score-card">
+  <mat-card-content routerLink="./{{dbs.myUid}}" class="my-score-card">
       <h1>{{(myRank | async)}}</h1>
       <h1 *ngIf="isThereNoScore">{{0}}</h1>
   </mat-card-content>
 </mat-card>
   
 <mat-card *ngFor="let user of myFollows | async" class="score-card">
-  <mat-card-content>
+  <mat-card-content routerLink="./{{user.uid}}">
       <h3>{{user.username | async}}</h3>
       <h4>{{user.rank | async}}</h4>
   </mat-card-content>
