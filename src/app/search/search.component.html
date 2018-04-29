@@ -1,12 +1,26 @@
-<input type="text" [(ngModel)]="term">
-<ul>
-  <li class="text" *ngFor="let user of users | async | filter:term ">
-    <div class="user-widget">
-      <div><h2>{{user.username}}</h2></div>
-      <div class="contols-container">
-        <span (click)="followUser(user.id)" >Follow</span>
-        <span (click)="unfollowUser(user.id)" >Unfollow</span>
-      </div>
-    </div>
-  </li>
-</ul>
+<mat-card>
+  <mat-form-field>
+    <input matInput placeholder="username" value="" [(ngModel)]="term">
+  </mat-form-field>
+</mat-card>
+<mat-list>
+  <mat-list-item *ngFor="let user of users | async | filter:term ">
+    <span>
+      <h2>{{user.username}}</h2>
+    </span>
+    <span class="space-in-line"></span>
+    <div *ngIf="isInFollowList(user.id); then unfollow; else follow"></div>
+    <ng-template #follow>
+      <span>
+        <button mat-button (click)="followUser(user.id)">Follow</button>
+      </span>
+    </ng-template>
+    <ng-template #unfollow>
+      <span>
+        <button mat-button (click)="unfollowUser(user.id)">Unfollow</button>
+      </span>
+    </ng-template>
+
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>
