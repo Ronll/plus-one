@@ -20,39 +20,39 @@ export class DbService {
     this.myRank = this.getUserRank(this.myUid)
     this.allUsers = db.list('users').valueChanges();
     this.myFollows = db.list(`follow/${this.myUid}`).snapshotChanges().map(actions => {
-        return actions.map(a => {
-          const data = a.payload.val();
-          const uid = a.key;
-          const username = this.getUsernameByUid(uid)
-          const rank = this.getUserRank(uid)
-          const points = 1;
-          return { uid, username, rank, ...data };
-        });
-    });
-    
+      return actions.map(a => {
+        const data = a.payload.val();
+        const uid = a.key;
+        const username = this.getUsernameByUid(uid)
+        const rank = this.getUserRank(uid)
+        const points = 1;
+        return { uid, username, rank, ...data };
+      });
+    })
+
     this.fullReverseFollowersList = db.list('followers').valueChanges();
     this.allRankings = db.list('ranks').valueChanges()
   }
 
-  rankUser(uid, rank, reason){
+  rankUser(uid, rank, reason) {
     this.db.list(`/ranks/${uid}`).push({
       rank: rank,
       ranker: this.myUid,
       reason: reason,
-      timestamp: String(Date.now()).slice(0,9)
+      timestamp: String(Date.now()).slice(0, 9)
     })
   }
 
-  getUsernameByUid(uid){
+  getUsernameByUid(uid) {
     return this.db.object(`/users/${uid}/username`).valueChanges()
   }
 
-  getUserRank(uid){
+  getUserRank(uid) {
     return this.db.list(`/ranks/${uid}`).valueChanges().map(array =>
-      array.reduce((acc, element)=>{ return acc + element['rank']}, 0))
+      array.reduce((acc, element) => { return acc + element['rank'] }, 0))
   }
 
-  getUserRankEvents(uid){
+  getUserRankEvents(uid) {
     return this.db.list(`/ranks/${uid}`).valueChanges().map((array) => {
       return array.map((event) => {
         const username = this.getUsernameByUid(event['ranker'])
@@ -61,14 +61,14 @@ export class DbService {
     })
   }
 
-  isObjectDefined(uri: string, callback){
+  isObjectDefined(uri: string, callback) {
     return this.db.object(uri).snapshotChanges().subscribe((obj) => {
       callback(obj.key !== null)
     })
   }
 
-  getMyRank(){
-    return this.allRankings[this.myUid].map((currentRank)=>{
+  getMyRank() {
+    return this.allRankings[this.myUid].map((currentRank) => {
       currentRank += currentRank.rank
     })
   }
