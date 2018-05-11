@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
+import { isNgTemplate } from '@angular/compiler';
 
 @Injectable()
 export class DbService {
@@ -35,12 +36,25 @@ export class DbService {
   }
 
   rankUser(uid, rank, reason) {
-    this.db.list(`/ranks/${uid}`).push({
+    let timestamp = String(Date.now()).slice(0, 9)
+
+    let reference = this.db.list(`/ranks/ranks`).push({})
+
+    this.db.object(`/ranks/ranks/${reference.key}`).set({
+      id: reference.key,
       rank: rank,
+      ranked: uid,
       ranker: this.myUid,
       reason: reason,
-      timestamp: String(Date.now()).slice(0, 9)
+      timestamp: timestamp
     })
+
+    this.db.list(`/ranks/user_is_ranked/${uid}`)
+    .set(reference.key, { timestamp: timestamp })
+    
+
+    this.db.list(`/ranks/user_is_ranker/${this.myUid}`)
+    .set(reference.key, { timestamp: timestamp })
   }
 
   getUsernameByUid(uid) {
@@ -48,8 +62,12 @@ export class DbService {
   }
 
   getUserRank(uid) {
-    return this.db.list(`/ranks/${uid}`).valueChanges().map(array =>
-      array.reduce((acc, element) => { return acc + element['rank'] }, 0))
+    return this.db.list(`/ranks/ranks`).valueChanges()
+    .map(ranks =>
+      ranks
+        .filter(rank => rank['ranked'] === uid)
+        .reduce((acc, rank) => { return acc + rank['rank'] }, 0)
+    )
   }
 
   getUserRankEvents(uid) {
