@@ -24,7 +24,7 @@ export class ScoresComponent implements OnInit {
   isThereNoScore: any
 
   constructor(
-    private db: AngularFireDatabase, 
+    private db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     private dbs: DbService,
     public dialog: MatDialog
