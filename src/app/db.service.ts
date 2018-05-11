@@ -86,8 +86,6 @@ export class DbService {
   }
 
   getMyRank() {
-    return this.allRankings[this.myUid].map((currentRank) => {
-      currentRank += currentRank.rank
-    })
+    return this.getUserRank(this.myUid)
   }
 }
