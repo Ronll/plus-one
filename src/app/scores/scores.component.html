@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-content routerLink="./{{dbs.myUid}}" class="my-score-card">
-      <h1>{{(myRank | async)}}</h1>
+      <h1>{{(dbs.myRank | async)}}</h1>
       <h1 *ngIf="isThereNoScore">{{0}}</h1>
   </mat-card-content>
 </mat-card>

@@ -36,8 +36,6 @@ export class ScoresComponent implements OnInit {
 
     this.checkIfUserHasRank()
     
-    this.myScore = dbs.myRank
-
   }
 
   openDialog(): Promise<any> {
@@ -54,7 +52,7 @@ export class ScoresComponent implements OnInit {
   }
 
   checkIfUserHasRank(){
-    this.dbs.isObjectDefined(`/rank/${this.myUid}`, (isDefined)=> this.isThereNoScore = !isDefined)
+    this.dbs.isObjectDefined(`/ranks/user_is_ranked/${this.myUid}`, (isDefined)=> this.isThereNoScore = !isDefined)
   }
 
   ngOnInit() {
