@@ -71,10 +71,12 @@ export class DbService {
   }
 
   getUserRankEvents(uid) {
-    return this.db.list(`/ranks/${uid}`).valueChanges().map((array) => {
-      return array.map((event) => {
-        const username = this.getUsernameByUid(event['ranker'])
-        return { ...event, username }
+    return this.db.list(`/ranks/user_is_ranked/${uid}`).snapshotChanges().map((eventList) => {
+      return eventList.map((event) => {
+        return this.db.object(`/ranks/ranks/${event.key}`).valueChanges().map(rank => {
+          let username = this.getUsernameByUid(rank['ranker'])
+          return { ...rank, username}
+        })
       })
     })
   }

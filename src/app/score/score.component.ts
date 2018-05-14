@@ -16,11 +16,9 @@ export class ScoreComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private dbs: DbService) {
     this.uid = this.route.snapshot.params.uid;
-    this.rankEvents =
-      dbs.getUserRankEvents(this.uid)
-        .map(ranks =>
-          ranks.sort((a, b) => a['timestamp'] - b['timestamp'])
-        )
+    this.rankEvents = 
+    dbs.getUserRankEvents(this.uid)
+      .map(ranks => ranks.sort((a, b) => a['timestamp'] - b['timestamp']))
   }
 
   ngOnInit() {
