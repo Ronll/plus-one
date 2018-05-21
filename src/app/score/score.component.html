@@ -9,6 +9,12 @@
     </span>
     <span class="space-in-line"></span>
     <span>
+      <mat-chip-list>
+        <mat-chip>{{ ((event | async)?.likes | async)?.length  }} likes</mat-chip>
+      </mat-chip-list>
+    </span>
+    <span class="space-in-line"></span>
+    <span>
       <p>{{ ( event | async )?.reason }}</p>
     </span>
     <span class="space-in-line"></span>

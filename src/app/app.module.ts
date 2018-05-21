@@ -20,6 +20,7 @@ import { ScoreComponent } from './score/score.component';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { 
   MatDialogModule,
+  MatChipsModule,
   MatFormFieldModule, 
   MatInputModule, 
   MatToolbarModule,
@@ -74,6 +75,7 @@ const appRoutes: Routes = [
     MatListModule,
     MatStepperModule,
     MatProgressSpinnerModule,
+    MatChipsModule,
     ReactiveFormsModule
   ],
   providers: [

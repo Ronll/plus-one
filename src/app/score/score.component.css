@@ -2,6 +2,9 @@
     flex: 1 1 auto;
 }
 
+.likes-chip{
+}
+
 .float-bottom-left {
     bottom: 0%;
     position: fixed;

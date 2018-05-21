@@ -75,7 +75,10 @@ export class DbService {
       return eventList.map((event) => {
         return this.db.object(`/ranks/ranks/${event.key}`).valueChanges().map(rank => {
           let username = this.getUsernameByUid(rank['ranker'])
-          return { ...rank, username}
+
+          let likes = this.db.list(`/likes/rank/${rank['id']}`).valueChanges()
+
+          return { ...rank, username, likes}
         })
       })
     })
