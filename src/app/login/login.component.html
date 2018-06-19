@@ -5,10 +5,9 @@
     </ng-template>
     <mat-horizontal-stepper #smsstepper linear>
       <mat-step [stepControl]="phoneNumberFormGroup">
-        <form #phonenumform="ngForm" (ngSubmit)="sumbitPhoneNumber(smsstepper, phonenumform)" [formGroup]="phoneNumberFormGroup">
+        <form #phonenumform="ngForm" (ngSubmit)="sumbitPhoneNumber(smsstepper)" [formGroup]="phoneNumberFormGroup">
           <mat-form-field>
-            <input matInput placeholder="Phone number" [(ngModel)]="phoneNumber" formControlName="phoneNumber" (click)="sendLoginCode"
-              required>
+            <input matInput placeholder="Phone number" [(ngModel)]="phoneNumber" formControlName="phoneNumber" required>
           </mat-form-field>
           <button mat-button matStepperNext [disabled]="!phonenumform.valid"> Send Code </button>
           <mat-spinner diameter="15" *ngIf="smsSpinner"></mat-spinner>
