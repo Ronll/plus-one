@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
 
   users: Observable<any>
 
+  term: string
+
   constructor(
     private db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
